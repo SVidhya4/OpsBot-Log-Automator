@@ -7,8 +7,8 @@ class OpsBot:
     def __init__(self, log_file):
         self.log_file = log_file
         self.targets = ["CRITICAL", "ERROR", "FAILED LOGIN"]
+        self.lower_targets = [t.lower() for t in self.targets]
         self.stats = {key: 0 for key in self.targets}
-        self.alerts = []
 
     def analyze(self, chunk_size=1024 * 1024):
         """Reads logs in 1MB chunks to stay memory-efficient."""
@@ -16,53 +16,48 @@ class OpsBot:
             print(f"Error: {self.log_file} not found.")
             return
 
-        with open(self.log_file, 'r') as f:
+        report_date = datetime.now().strftime("%Y-%m-%d")
+        report_name = f"security_alert_{report_date}.txt"
+
+        with open(self.log_file, 'r') as f, open(report_name, 'w') as report:
+            report.write(f"--- OpsBot Security Report ({report_date}) ---\n")
+            report.write("="*45 + "\n\nDetailed Alert Logs:\n")
+            report.write("="*45 + "\n")
+            
             while True:
                 lines = f.readlines(chunk_size)
                 if not lines:
                     break
                 
                 for line in lines:
-                    self.check_line(line)
+                    self.process_line(line, report)
         
-        self.generate_report()
+        self.append_summary(report_name)
 
-    def check_line(self, line):
+    def process_line(self, line, report):
         """Standardizes case and checks for target keywords."""
         is_alert = False
         lower_line = line.lower()
         
-        for target in self.targets:
-            if target.lower() in lower_line:
-                self.stats[target] += 1
+        for i, t_lower in enumerate(self.lower_targets):
+            if t_lower in lower_line:
+                self.stats[self.targets[i]] += 1
                 is_alert = True
         
         if is_alert:
-            self.alerts.append(line.strip())
+            report.write(line)
 
-    def generate_report(self):
-        """Generates the required security_alert_[date].txt file."""
-        report_date = datetime.now().strftime("%Y-%m-%d")
-        report_name = f"security_alert_{report_date}.txt"
-        
-        with open(report_name, "w") as f:
-            f.write(f"--- OpsBot Security Report ({report_date}) ---\n")
-            f.write("="*45 + "\n\n")
-            
-            f.write("Summary Statistics:\n")
-            for target, count in self.stats.items():
-                f.write(f"- {target}: {count}\n")
-            
+    def append_summary(self, report_name):
+        """Adds the final counts to the bottom of the report."""
+        with open(report_name, 'a') as f:
             f.write("\n" + "="*45 + "\n")
-            f.write("Filtered Alert Logs:\n")
+            f.write("SUMMARY STATISTICS\n")
             f.write("="*45 + "\n")
-            
-            for alert in self.alerts:
-                f.write(alert + "\n")
+            for target, count in self.stats.items():
+                f.write(f"{target}: {count}\n")
         
-        if os.path.exists(report_name):
-            size = os.path.getsize(report_name)
-            print(f"Report Ready: {report_name} ({size:,} bytes generated).")
+        size = os.path.getsize(report_name)
+        print(f"Report Ready: {report_name} ({size:,} bytes generated).")
 
 if __name__ == "__main__":
     bot = OpsBot("server.log")
