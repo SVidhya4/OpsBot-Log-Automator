@@ -1,0 +1,26 @@
+--- OpsBot Security Report (2026-04-06) ---
+=============================================
+
+Summary Statistics:
+- CRITICAL: 5
+- ERROR: 10
+- FAILED LOGIN: 4
+
+=============================================
+Filtered Alert Logs:
+=============================================
+2026-04-05 00:23:56 [Thread-29] ERROR 57.203.1.189 com.virtusa.system.HealthMonitor - Database connection timeout: pool exhausted 'alex'
+2026-04-05 00:49:28 [Thread-76] ERROR 213.197.221.86 com.virtusa.db.ConnectionPool - FAILED LOGIN attempt detected 'james'
+2026-04-05 00:58:08 [Thread-80] ERROR 191.199.43.225 com.virtusa.db.ConnectionPool - FAILED LOGIN attempt detected 'smith'
+2026-04-05 01:16:32 [Thread-29] ERROR 78.30.175.113 com.virtusa.db.ConnectionPool - FAILED LOGIN attempt detected 'alex'
+2026-04-05 01:46:58 [Thread-1] ERROR 62.179.68.247 com.virtusa.api.GatewayService - Database connection timeout: pool exhausted 'adam'
+2026-04-05 02:03:00 [Thread-64] ERROR 17.42.228.173 com.virtusa.db.ConnectionPool - Database connection timeout: pool exhausted 'smith'
+2026-04-05 03:03:18 [Thread-64] CRITICAL 123.15.222.217 com.virtusa.auth.LoginService - CRITICAL CPU usage at 99% - initiating thread dump 'smith'
+2026-04-05 03:09:00 [Thread-3] CRITICAL 31.52.130.158 com.virtusa.db.ConnectionPool - CRITICAL CPU usage at 99% - initiating thread dump 'adam'
+2026-04-05 03:15:08 [Thread-9] ERROR 3.161.126.15 com.virtusa.auth.LoginService - FAILED LOGIN attempt detected 'eve'
+2026-04-05 03:53:50 [Thread-31] ERROR 172.160.157.35 com.virtusa.db.ConnectionPool - Database connection timeout: pool exhausted 'james'
+2026-04-05 04:14:48 [Thread-42] CRITICAL 81.37.9.138 com.virtusa.db.ConnectionPool - CRITICAL CPU usage at 99% - initiating thread dump 'adam'
+2026-04-05 04:53:36 [Thread-48] CRITICAL 28.27.234.193 com.virtusa.api.GatewayService - CRITICAL CPU usage at 99% - initiating thread dump 'smith'
+2026-04-05 05:01:34 [Thread-71] ERROR 93.52.240.137 com.virtusa.auth.LoginService - Database connection timeout: pool exhausted 'adam'
+2026-04-05 05:15:28 [Thread-12] CRITICAL 188.34.201.117 com.virtusa.api.GatewayService - CRITICAL CPU usage at 99% - initiating thread dump 'isabella'
+2026-04-05 05:20:40 [Thread-89] ERROR 108.242.213.188 com.virtusa.auth.LoginService - Database connection timeout: pool exhausted 'isabella'
